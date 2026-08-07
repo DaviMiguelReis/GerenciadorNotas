@@ -1,0 +1,31 @@
+﻿@model GerenciadorNotas.ViewModels.NovaNotaViewModel
+
+@{
+    ViewData["Title"] = "Novas Notas";
+}
+
+<h2>Cadastrar Novas Notas</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Cadastrar" method="post">
+            <div class="mb-3">
+                <label asp-for="Titulo" class="form-label">Título</label>
+                <input asp-for="Titulo" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label asp-for="Conteudo" class="form-label">Contéudo</label>
+                <textarea asp-for="Conteudo" class="form-control" rows="3"></textarea>
+            </div>
+            <div class="mb-3">
+                <label asp-for="DataCriacao" class="form-label">Data Criacao (Horas)</label>
+                <input asp-for="DataCriacao" type="text" class="form-control" />
+            </div>
+            <div class="mt-4">
+                <button type="submit" class="btn btn-success">Salvar Projeto</button>
+                <a asp-action="Index" class="btn btn-secondary ms-2">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>

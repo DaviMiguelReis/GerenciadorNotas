@@ -1,0 +1,31 @@
+﻿@model IEnumerable<GerenciadorNotas.Models.Nota>
+
+@{
+    ViewData["Title"] = "Notas";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Notas Cadastrados</h2>
+    <a asp-action="Cadastrar" class="btn btn-primary">Adicionar Nova Nota</a>
+</div>
+
+<table class="table table-striped table-hover">
+    <thead class="table-dark">
+        <tr>
+            
+            <th>Título</th>
+            <th>Conteudo</th>
+            <th>DataCriacao</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Titulo</td>
+                <td>@item.Conteudo</td>
+                <td>@item.DataCriacao h</td>
+            </tr>
+        }
+    </tbody>
+</table>
