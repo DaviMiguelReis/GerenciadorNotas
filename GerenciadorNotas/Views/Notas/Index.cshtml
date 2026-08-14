@@ -1,31 +1,53 @@
-﻿@model IEnumerable<GerenciadorNotas.Models.Nota>
+﻿@model List<GerenciadorNotas.Models.Nota>
 
 @{
-    ViewData["Title"] = "Notas";
+    ViewData["Title"] = "Notas Acadêmicos";
 }
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>Notas Cadastrados</h2>
-    <a asp-action="Cadastrar" class="btn btn-primary">Adicionar Nova Nota</a>
+<div class="page-heading">
+    <div>
+        <h1>Notas Acadêmicos</h1>
+        <p>Gerencie as Notas cadastrados.</p>
+    </div>
+    <a asp-action="Cadastrar" class="button">Nova Nota</a>
 </div>
 
-<table class="table table-striped table-hover">
-    <thead class="table-dark">
-        <tr>
-            
-            <th>Título</th>
-            <th>Conteudo</th>
-            <th>DataCriacao</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.Titulo</td>
-                <td>@item.Conteudo</td>
-                <td>@item.DataCriacao h</td>
-            </tr>
-        }
-    </tbody>
-</table>
+@if (TempData["Mensagem"] is not null)
+{
+    <div class="alert success">
+        @TempData["Mensagem"]
+    </div>
+}
+
+@if (Model.Count == 0)
+{
+    <div class="empty">Nenhum Nota cadastrada.</div>
+}
+else
+{
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Data Criação</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var projeto in Model)
+                {
+                    <tr>
+                        <td>@projeto.Titulo</td>
+                        <td>@projeto.DataCriacao horas</td>
+                        <td class="actions">
+                            <a asp-action="Detalhes" asp-route-id="@projeto.Id">Detalhes</a>
+                            <a asp-action="Editar" asp-route-id="@projeto.Id">Editar</a>
+                            <a class="danger-link" asp-action="Excluir" asp-route-id="@projeto.Id">Excluir</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

@@ -2,8 +2,10 @@
 
 namespace GerenciadorNotas.ViewModels
 {
-    public class NovaNotaViewModel
+    public class EditarNotaViewModel
     {
+        public int Id { get; set; }
+
         [Required(ErrorMessage = "Informe o título da nota.")]
         [StringLength(100, ErrorMessage = "O título da nota deve ter no máximo 100 caracteres.")]
         public string Titulo { get; set; } = string.Empty;

@@ -1,0 +1,21 @@
+﻿@model GerenciadorNotas.Models.Nota
+
+@{
+    ViewData["Title"] = "Detalhes do projeto";
+}
+
+<h1>Detalhes do projeto</h1>
+
+<dl class="details">
+    <dt>Título</dt>
+    <dd>@Model.Titulo</dd>
+
+    <dt>Contéudo</dt>
+    <dd>@Model.Conteudo</dd>
+
+    <dt>Data Criação</dt>
+    <dd>@Model.DataCriacao horas</dd>
+</dl>
+
+<a asp-action="Editar" asp-route-id="@Model.Id" class="button">Editar</a>
+<a asp-action="Index" class="button secondary">Voltar</a>

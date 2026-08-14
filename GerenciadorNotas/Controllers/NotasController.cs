@@ -2,48 +2,109 @@
 using GerenciadorNotas.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GerenciadorNotas.Controllers
+namespace GerenciadorAcademico.Controllers
 {
     public class NotasController : Controller
     {
-        private readonly NotaService _notaService;
+        private readonly INotaService _projetoService;
 
-        // O construtor recebe o serviço injetado automaticamente
-        public NotasController(NotaService notaService)
+        public NotasController(INotaService projetoService)
         {
-            _notaService = notaService;
+            _projetoService = projetoService;
         }
 
-        // Exibe a tela de listagem (GET)
-        [HttpGet]
         public IActionResult Index()
         {
-            var projetos = _notaService.ObterTodos();
+            var projetos = _projetoService.Listar();
             return View(projetos);
         }
 
-        // Exibe o formulário vazio (GET)
+        public IActionResult Detalhes(int id)
+        {
+            var projeto = _projetoService.ObterPorId(id);
+
+            if (projeto is null)
+                return NotFound();
+
+            return View(projeto);
+        }
+
         [HttpGet]
         public IActionResult Cadastrar()
         {
             return View();
         }
 
-        // Recebe os dados preenchidos no formulário (POST)
         [HttpPost]
-        public IActionResult Cadastrar(NovaNotaViewModel viewModel)
+        [ValidateAntiForgeryToken]
+        public IActionResult Cadastrar(NovaNotaViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                _notaService.Adicionar(viewModel);
-                // Após salvar, redireciona de volta para a listagem
-                return RedirectToAction(nameof(Index));
-            }
+            if (!ModelState.IsValid)
+                return View(model);
 
-            // Se der erro de validação, volta pra mesma tela mostrando o formulário preenchido
-            return View(viewModel);
+            _projetoService.Adicionar(model);
+            TempData["Mensagem"] = "Projeto cadastrado com sucesso!";
+
+            return RedirectToAction(nameof(Index));
         }
 
+        [HttpGet]
+        public IActionResult Editar(int id)
+        {
+            var projeto = _projetoService.ObterPorId(id);
 
+            if (projeto is null)
+                return NotFound();
+
+            var model = new EditarNotaViewModel
+            {
+                Id = projeto.Id,
+                Titulo = projeto.Titulo,
+                Conteudo = projeto.Conteudo,
+                DataCriacao = projeto.DataCriacao
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Editar(EditarNotaViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var atualizado = _projetoService.Atualizar(model);
+
+            if (!atualizado)
+                return NotFound();
+
+            TempData["Mensagem"] = "Projeto atualizado com sucesso!";
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public IActionResult Excluir(int id)
+        {
+            var projeto = _projetoService.ObterPorId(id);
+
+            if (projeto is null)
+                return NotFound();
+
+            return View(projeto);
+        }
+
+        [HttpPost, ActionName("Excluir")]
+        [ValidateAntiForgeryToken]
+        public IActionResult ConfirmarExclusao(int id)
+        {
+            var removido = _projetoService.Remover(id);
+
+            if (!removido)
+                return NotFound();
+
+            TempData["Mensagem"] = "Projeto excluído com sucesso!";
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

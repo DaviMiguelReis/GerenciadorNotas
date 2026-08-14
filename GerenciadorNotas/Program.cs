@@ -12,7 +12,7 @@ namespace GerenciadorNotas
             builder.Services.AddControllersWithViews();
 
             // Registrando nosso serviço como Singleton (uma única instância para toda a aplicação)
-            builder.Services.AddSingleton<GerenciadorNotas.Services.NotaService>();
+            builder.Services.AddSingleton<INotaService, NotaService>();
 
             var app = builder.Build();
 
@@ -33,7 +33,7 @@ namespace GerenciadorNotas
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}")
+                pattern: "{controller=Notas}/{action=Index}/{id?}")
                 .WithStaticAssets();
             app.Run();
         }

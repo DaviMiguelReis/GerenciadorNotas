@@ -1,0 +1,39 @@
+﻿@model GerenciadorNotas.ViewModels.EditarNotaViewModel
+
+@{
+    ViewData["Title"] = "Editar Nota";
+}
+
+<h1>Editar projeto</h1>
+
+<form asp-action="Editar" method="post" class="form-card">
+    <input asp-for="Id" type="hidden" />
+    <div asp-validation-summary="ModelOnly" class="validation"></div>
+
+    <div>
+        <label asp-for="Titulo"></label>
+        <input asp-for="Titulo" class="input" />
+        <span asp-validation-for="Titulo" class="validation"></span>
+    </div>
+
+    <div>
+        <label asp-for="Conteudo"></label>
+        <textarea asp-for="Conteudo" class="input"></textarea>
+        <span asp-validation-for="Conteudo" class="validation"></span>
+    </div>
+
+    <div>
+        <label asp-for="DataCriacao"></label>
+        <input asp-for="DataCriacao" class="input" />
+        <span asp-validation-for="DataCriacao" class="validation"></span>
+    </div>
+
+    <div class="form-actions">
+        <button type="submit" class="button">Salvar alterações</button>
+        <a asp-action="Index" class="button secondary">Cancelar</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
