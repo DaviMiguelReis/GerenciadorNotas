@@ -6,18 +6,18 @@ namespace GerenciadorAcademico.Controllers
 {
     public class NotasController : Controller
     {
-        private readonly INotaService _projetoService;
+        private readonly INotaService _notaService;
 
         public NotasController(INotaService projetoService)
         {
-            _projetoService = projetoService;
+            _notaService = projetoService;
         }
 
         public IActionResult Index(string? pesquisa, string? ordenarPor)
         {
-            var projetos = _projetoService.PesquisarPorTitulo(pesquisa);
+            var projetos = _notaService.PesquisarPorTitulo(pesquisa);
 
-            projetos = _projetoService.Ordenar(
+            projetos = _notaService.Ordenar(
                 projetos,
                 ordenarPor);
 
@@ -34,7 +34,7 @@ namespace GerenciadorAcademico.Controllers
 
         public IActionResult Detalhes(int id)
         {
-            var projeto = _projetoService.ObterPorId(id);
+            var projeto = _notaService.ObterPorId(id);
 
             if (projeto is null)
                 return NotFound();
@@ -55,7 +55,7 @@ namespace GerenciadorAcademico.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            _projetoService.Adicionar(model);
+            _notaService.Adicionar(model);
             TempData["Mensagem"] = "Projeto cadastrado com sucesso!";
 
             return RedirectToAction(nameof(Index));
@@ -64,7 +64,7 @@ namespace GerenciadorAcademico.Controllers
         [HttpGet]
         public IActionResult Editar(int id)
         {
-            var projeto = _projetoService.ObterPorId(id);
+            var projeto = _notaService.ObterPorId(id);
 
             if (projeto is null)
                 return NotFound();
@@ -74,7 +74,7 @@ namespace GerenciadorAcademico.Controllers
                 Id = projeto.Id,
                 Titulo = projeto.Titulo,
                 Conteudo = projeto.Conteudo,
-                DataCriacao = projeto.DataCriacao
+               
             };
 
             return View(model);
@@ -87,7 +87,7 @@ namespace GerenciadorAcademico.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            var atualizado = _projetoService.Atualizar(model);
+            var atualizado = _notaService.Atualizar(model);
 
             if (!atualizado)
                 return NotFound();
@@ -99,7 +99,7 @@ namespace GerenciadorAcademico.Controllers
         [HttpGet]
         public IActionResult Excluir(int id)
         {
-            var projeto = _projetoService.ObterPorId(id);
+            var projeto = _notaService.ObterPorId(id);
 
             if (projeto is null)
                 return NotFound();
@@ -111,7 +111,7 @@ namespace GerenciadorAcademico.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult ConfirmarExclusao(int id)
         {
-            var removido = _projetoService.Remover(id);
+            var removido = _notaService.Remover(id);
 
             if (!removido)
                 return NotFound();

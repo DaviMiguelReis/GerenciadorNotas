@@ -43,7 +43,7 @@ namespace GerenciadorNotas.Services
                 Id = GerarNovoId(),
                 Titulo = vm.Titulo,
                 Conteudo = vm.Conteudo,
-                DataCriacao = vm.DataCriacao
+                DataCriacao = DateTime.Now
             };
 
             _projetos.Add(novoProjeto);
@@ -58,7 +58,7 @@ namespace GerenciadorNotas.Services
 
             projeto.Titulo = model.Titulo;
             projeto.Conteudo = model.Conteudo;
-            projeto.DataCriacao = model.DataCriacao;
+            //projeto.DataCriacao = model.DataCriacao;
 
             return true;
         }

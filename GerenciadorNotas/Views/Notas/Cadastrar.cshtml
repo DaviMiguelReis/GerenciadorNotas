@@ -27,8 +27,12 @@
         <span asp-validation-for="DataCriacao" class="text-danger"></span>
     </div> *@
 
-    <button type="submit" class="btn btn-success">Salvar</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    <div class="form-actions">
+
+        <button type="submit" class="button">Salvar</button>
+        <a asp-action="Index" class="button secondary">Cancelar</a>
+
+    </div>
 </form>
 
 @section Scripts {
