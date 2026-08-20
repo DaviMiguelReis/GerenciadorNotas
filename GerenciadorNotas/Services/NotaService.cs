@@ -77,5 +77,26 @@ namespace GerenciadorNotas.Services
         {
             return _projetos.Count == 0 ? 1 : _projetos.Max(projeto => projeto.Id) + 1;
         }
+
+
+        public List<Nota> PesquisarPorTitulo(string? titulo)
+        {
+            if (string.IsNullOrWhiteSpace(titulo))
+                return Listar();
+
+            return _projetos
+                .Where(projeto => projeto.Titulo.Contains(titulo, StringComparison.CurrentCultureIgnoreCase))
+                .ToList();
+        }
+
+        public List<Nota> Ordenar(IEnumerable<Nota> projetos, string? ordenarPor)
+        {
+            return ordenarPor?.ToLowerInvariant() switch
+            {
+                "titulo" => projetos.OrderBy(projeto => projeto.Titulo).ToList(),
+                "dataCriacao" => projetos.OrderBy(projeto => projeto.DataCriacao).ToList(),
+                _ => projetos.ToList()
+            };
+        }
     }
 }

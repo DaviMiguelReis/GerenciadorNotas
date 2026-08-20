@@ -13,10 +13,23 @@ namespace GerenciadorAcademico.Controllers
             _projetoService = projetoService;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string? pesquisa, string? ordenarPor)
         {
-            var projetos = _projetoService.Listar();
-            return View(projetos);
+            var projetos = _projetoService.PesquisarPorTitulo(pesquisa);
+
+            projetos = _projetoService.Ordenar(
+                projetos,
+                ordenarPor);
+
+            var model = new NotasIndexViewModel
+            {
+                Notas = projetos,
+                TextoPesquisa = pesquisa,
+                QuantidadeTotal = projetos.Count,
+                OrdenarPor = ordenarPor
+            };
+
+            return View(model);
         }
 
         public IActionResult Detalhes(int id)

@@ -10,5 +10,9 @@ namespace GerenciadorNotas.Services
         void Adicionar(NovaNotaViewModel model);
         bool Atualizar(EditarNotaViewModel model);
         bool Remover(int id);
+
+        List<Nota> PesquisarPorTitulo(string? titulo);
+
+        List<Nota> Ordenar(IEnumerable<Nota> projetos, string? ordenarPor);
     }
 }
